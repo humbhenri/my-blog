@@ -22,6 +22,10 @@ function randId() {
     return faker.string.uuid();
 }
 
+function randImage() {
+    return faker.image.urlPicsumPhotos({ width: 800, height: 600 });
+}
+
 async function makePosts() {
     const postsCount = 10;
     const posts = [];
@@ -32,7 +36,8 @@ async function makePosts() {
             title: randTitle(),
             content: randContent(),
             date: randDate(),
-            author: randAuthor()
+            author: randAuthor(),
+            cover: randImage()
         };
         posts.push(post);
     }
