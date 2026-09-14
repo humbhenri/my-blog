@@ -6,19 +6,22 @@ export async function PostsList() {
   const posts = await postRepository.findAll();
 
   return (
-    <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
       {posts.map((post) => (
-        <div
-          key={post.id}
-          className="p-4"
-        >
+        <div key={post.id} className="flex flex-col gap-4 group">
           <CoverImage src={post.cover} alt={post.title} href="#" />
-          <Heading url="#" as="h4">
-            {post.title}
-          </Heading>
-          <p className="text-sm text-gray-500">
-            By {post.author} on {new Date(post.date).toLocaleDateString()}
-          </p>
+          <div className="flex flex-col gap-4 sm:justify-center">
+            <time
+              className="text-slate-600 block text-sm/tight"
+              dateTime={post.date}
+            >
+              {new Date(post.date).toLocaleString()}
+            </time>
+            <Heading as="h2" url="#">
+              {post.title}
+            </Heading>
+            <p>{post.content}</p>
+          </div>
         </div>
       ))}
     </section>
