@@ -7,7 +7,7 @@ describe("JSON Post Repository", () => {
         const repository = new JsonPostRepository();
 
         // Act
-        const posts = await repository.findAll();
+        const posts = await repository.findAllPublished();
 
         // Assert
         expect(posts).toBeInstanceOf(Array);

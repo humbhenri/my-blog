@@ -26,6 +26,10 @@ function randImage() {
     return faker.image.urlPicsumPhotos({ width: 800, height: 600 });
 }
 
+function randSlug() {
+    return faker.lorem.slug();
+}
+
 async function makePosts() {
     const postsCount = 10;
     const posts = [];
@@ -37,7 +41,9 @@ async function makePosts() {
             content: randContent(),
             date: randDate(),
             author: randAuthor(),
-            cover: randImage()
+            cover: randImage(),
+            slug: randSlug(),
+            published: true
         };
         posts.push(post);
     }

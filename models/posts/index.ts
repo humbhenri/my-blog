@@ -5,4 +5,6 @@ export type Post = {
     date: string;
     author: string;
     cover: string;
+    published: boolean;
+    slug: string;
 };

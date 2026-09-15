@@ -3,16 +3,22 @@ import path from "path";
 import fs from "fs/promises";
 
 export interface PostRepository {
-    findAll(): Promise<Post[]>;
+    findAllPublished(): Promise<Post[]>;
+    findById(): Promise<Post>;
 }
 
 export class JsonPostRepository implements PostRepository {
 
-    async findAll(): Promise<Post[]> {
+    async findAllPublished(): Promise<Post[]> {
         const file = path.join(process.cwd(), "db", "posts.json");
         const data = await fs.readFile(file, "utf-8");
         await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate a delay
-        return JSON.parse(data) as Post[];
+        const posts = JSON.parse(data) as Post[];
+        return posts.filter(post => post.published);
+    }
+
+    async findById(): Promise<Post> {
+        throw new Error("TODO");
     }
 
 }
