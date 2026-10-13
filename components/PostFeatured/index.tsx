@@ -1,9 +1,9 @@
 import { CoverImage } from "../CoverImage";
 import { PostSummary } from "../PostSummary";
-import { findAllPublicPosts } from "@/lib/post/queries";
+import { findAllPublicPostsCached } from "@/lib/post/queries";
 
 export async function PostFeatured() {
-  const posts = await findAllPublicPosts();
+  const posts = await findAllPublicPostsCached();
   const post = posts[0];
 
   return (
@@ -11,10 +11,10 @@ export async function PostFeatured() {
       <CoverImage
         src={post.cover}
         alt={post.title}
-        href={`/posts/${post.id}`}
+        href={`/post/${post.slug}`}
       />
-      <PostSummary 
-        postLink={`/posts/${post.slug}` }
+      <PostSummary
+        postLink={`/post/${post.slug}`}
         title={post.title}
         date={post.date}
         content={post.content}

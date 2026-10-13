@@ -1,9 +1,9 @@
 import { CoverImage } from "../CoverImage";
 import { PostSummary } from "../PostSummary";
-import { findAllPublicPosts } from "@/lib/post/queries";
+import { findAllPublicPostsCached } from "@/lib/post/queries";
 
 export async function PostsList() {
-  const posts = await findAllPublicPosts();
+  const posts = await findAllPublicPostsCached();
 
   return (
     <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
@@ -15,7 +15,7 @@ export async function PostsList() {
             date={post.date}
             content={post.content}
             postHeading="h2"
-            postLink={`/posts/${post.slug}`}
+            postLink={`/post/${post.slug}`}
           />
         </div>
       ))}
