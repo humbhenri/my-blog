@@ -8,7 +8,7 @@ type SafeMarkdownProps = {
 
 export function SafeMarkdown({ markdown }: SafeMarkdownProps) {
   return (
-    <div>
+    <div className="prose prose-slate w-full max-w-none">
       <ReactMarkdown
         rehypePlugins={[rehypeSanitize]}
         remarkPlugins={[remarkGfm]}
