@@ -1,4 +1,3 @@
-import { notFound } from "next/navigation";
 import { findPostBySlugCached } from "@/lib/post/queries";
 import Image from "next/image";
 import { Heading } from "../Heading";
@@ -12,10 +11,7 @@ type SinglePostProps = {
 };
 
 export async function SinglePost({ slug }: SinglePostProps) {
-  const post = await findPostBySlugCached(slug).catch((e) => {
-    console.error(e);
-    notFound();
-  });
+  const post = await findPostBySlugCached(slug);
   return (
     <Container>
       <header className="group flex flex-col gap-4 mb-4">
