@@ -1,4 +1,4 @@
-import { JsonPostRepository } from "../repositories/posts/index.ts";
+import { JsonPostRepository } from "../repositories/posts/json-repository.ts";
 import { drizzleDb } from "./index.ts";
 import { postsTable } from "./schemas.ts";
 
