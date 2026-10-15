@@ -19,8 +19,15 @@ export class JsonPostRepository implements PostRepository {
     return posts.filter((post) => post.published);
   }
 
-  async findById(): Promise<Post> {
-    throw new Error("TODO");
+  async findById(id: string): Promise<Post> {
+    const file = path.join(process.cwd(), "db", "posts.json");
+    const data = await fs.readFile(file, "utf-8");
+    const posts = JSON.parse(data) as Post[];
+    const res = posts.filter((post) => post.id === id);
+    if (res.length) {
+      return res[0];
+    }
+    throw new Error(`Post with id ${id} not found`);
   }
 
   async findBySlug(slug: string): Promise<Post> {

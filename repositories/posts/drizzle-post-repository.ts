@@ -2,32 +2,42 @@ import { Post } from "@/models/posts";
 import { PostRepository } from ".";
 import { drizzleDb } from "../../db";
 import { postsTable } from "../../db/schemas";
-import { eq } from "drizzle-orm";
+import { desc } from "drizzle-orm";
 
 export class DrizzlePostRepository implements PostRepository {
   async findAllPublished(): Promise<Post[]> {
-    return await drizzleDb
-      .select()
-      .from(postsTable)
-      .where(eq(postsTable.published, true));
+    return await drizzleDb.query.posts.findMany({
+      orderBy: desc(postsTable.date),
+      where: (posts, { eq }) => eq(posts.published, true),
+    });
   }
 
-  async findById(): Promise<Post> {
-    throw new Error("Method not implemented.");
+  async findById(id: string): Promise<Post> {
+    const post = await drizzleDb.query.posts.findFirst({
+      where: (posts, { eq }) => eq(posts.slug, id),
+    });
+    if (post) {
+      return post;
+    }
+
+    throw new Error(`Post with id ${id} not found.`);
   }
 
   async findBySlug(slug: string): Promise<Post> {
-    const posts = await drizzleDb
-      .select()
-      .from(postsTable)
-      .where(eq(postsTable.slug, slug));
-    if (posts.length) {
-      return posts[0];
+    const post = await drizzleDb.query.posts.findFirst({
+      where: (posts, { eq, and }) =>
+        and(eq(posts.published, true), eq(posts.slug, slug)),
+    });
+    if (post) {
+      return post;
     }
+
     throw new Error(`Post with slug ${slug} not found.`);
   }
 
   async findAll(): Promise<Post[]> {
-    return drizzleDb.select().from(postsTable);
+    return await drizzleDb.query.posts.findMany({
+      orderBy: desc(postsTable.date),
+    });
   }
 }
