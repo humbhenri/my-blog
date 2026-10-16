@@ -1,7 +1,7 @@
 import type { Post } from "../../models/posts/index.ts";
 import path from "path";
 import fs from "fs/promises";
-import { PostRepository } from "./index.ts";
+import type { PostRepository } from "./index.ts";
 
 export class JsonPostRepository implements PostRepository {
   async findAll(): Promise<Post[]> {

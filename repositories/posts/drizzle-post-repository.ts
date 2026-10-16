@@ -1,7 +1,7 @@
-import { Post } from "@/models/posts";
-import { PostRepository } from ".";
-import { drizzleDb } from "../../db";
-import { postsTable } from "../../db/schemas";
+import type { Post } from "../../models/posts/index.ts";
+import type { PostRepository } from "./index.ts";
+import { drizzleDb } from "../../db/index.ts";
+import { postsTable } from "../../db/schemas.ts";
 import { desc } from "drizzle-orm";
 
 export class DrizzlePostRepository implements PostRepository {
