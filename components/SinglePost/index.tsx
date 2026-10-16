@@ -2,8 +2,6 @@ import { findPostBySlugCached } from "@/lib/post/queries";
 import Image from "next/image";
 import { Heading } from "../Heading";
 import { PostDate } from "../PostDate";
-import { Container } from "../Container";
-import { Footer } from "../Footer";
 import { SafeMarkdown } from "../SafeMarkdown";
 
 type SinglePostProps = {
@@ -13,7 +11,7 @@ type SinglePostProps = {
 export async function SinglePost({ slug }: SinglePostProps) {
   const post = await findPostBySlugCached(slug);
   return (
-    <Container>
+    <>
       <header className="group flex flex-col gap-4 mb-4">
         <Image
           src={post.cover}
@@ -28,7 +26,6 @@ export async function SinglePost({ slug }: SinglePostProps) {
         </p>
       </header>
       <SafeMarkdown markdown={post.content} />
-      <Footer />
-    </Container>
+    </>
   );
 }

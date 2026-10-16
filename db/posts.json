@@ -77,7 +77,7 @@
     "author": "Abraham Welch",
     "cover": "https://picsum.photos/seed/HCAS0ODpH/800/600?grayscale&blur=7",
     "slug": "clamo-curo-minus",
-    "published": true
+    "published": false
   },
   {
     "id": "04cf5cf0-3e01-4977-8687-501dd6f2f105",
@@ -97,6 +97,6 @@
     "author": "Lincoln Hane",
     "cover": "https://picsum.photos/seed/sXTdTAj/800/600?grayscale&blur=2",
     "slug": "alo-quasi-conicio",
-    "published": true
+    "published": false
   }
 ]

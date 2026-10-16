@@ -1,6 +1,7 @@
 import { Loading } from "@/components/Loading";
 import { SinglePost } from "@/components/SinglePost";
 import { findPostBySlugCached } from "@/lib/post/queries";
+import { Post } from "@/models/posts";
 import { Metadata } from "next";
 import { Suspense } from "react";
 
@@ -12,7 +13,7 @@ export async function generateMetadata({
   params,
 }: PostSlugPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = await findPostBySlugCached(slug);
+  const post: Post = await findPostBySlugCached(slug);
   return {
     title: post.title,
   };

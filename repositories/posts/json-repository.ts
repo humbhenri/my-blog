@@ -2,6 +2,7 @@ import type { Post } from "../../models/posts/index.ts";
 import path from "path";
 import fs from "fs/promises";
 import type { PostRepository } from "./index.ts";
+import { asyncDelay } from "../../utils/index.ts";
 
 export class JsonPostRepository implements PostRepository {
   async findAll(): Promise<Post[]> {
@@ -14,7 +15,7 @@ export class JsonPostRepository implements PostRepository {
   async findAllPublished(): Promise<Post[]> {
     const file = path.join(process.cwd(), "db", "posts.json");
     const data = await fs.readFile(file, "utf-8");
-    await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate a delay
+    await asyncDelay(5_000);
     const posts = JSON.parse(data) as Post[];
     return posts.filter((post) => post.published);
   }
