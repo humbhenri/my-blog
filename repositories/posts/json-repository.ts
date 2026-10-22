@@ -15,7 +15,7 @@ export class JsonPostRepository implements PostRepository {
   async findAllPublished(): Promise<Post[]> {
     const file = path.join(process.cwd(), "db", "posts.json");
     const data = await fs.readFile(file, "utf-8");
-    await asyncDelay(5_000);
+    await asyncDelay(500);
     const posts = JSON.parse(data) as Post[];
     return posts.filter((post) => post.published);
   }
