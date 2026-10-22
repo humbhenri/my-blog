@@ -20,7 +20,7 @@
           nodejs_24
           pkgs.typescript
           pkgs.typescript-language-server
- 	  tree-sitter
+ 	        tree-sitter
         ];
 
         shellHook = ''
