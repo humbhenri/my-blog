@@ -1,5 +1,5 @@
 "use client";
-
+import { toast } from "react-toastify";
 import { deletePostAction } from "@/actions/post/delete-action";
 import { Trash2Icon } from "lucide-react";
 import { useState, useTransition } from "react";
@@ -15,6 +15,7 @@ export function DeleteButton({ id, title }: DeleteButtonProps) {
   const [showDialog, setShowDialog] = useState(false);
 
   const handleClick = () => {
+    toast.dismiss();
     setShowDialog(true);
   };
 
@@ -22,9 +23,9 @@ export function DeleteButton({ id, title }: DeleteButtonProps) {
     startTransition(async () => {
       const res = await deletePostAction(id);
       if (res.error) {
-        alert(`Erro: ${res.error}`);
+        toast.error(`Erro: ${res.error}`);
       } else {
-        alert('Success11!');
+        toast.success('Post apagado com sucesso!');
       }
       setShowDialog(false);
     });
