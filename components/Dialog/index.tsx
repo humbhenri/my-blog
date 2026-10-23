@@ -1,5 +1,7 @@
 "use client";
 
+import { Button } from "../Button";
+
 type DialogProps = {
   title: string;
   content: React.ReactNode;
@@ -19,8 +21,8 @@ export function Dialog({ title, content, onCancel, onConfirm, disabled }: Dialog
         <h3 className="text-xl font-extrabold">{title}</h3>
         <div>{content}</div>
         <div className="flex items-center justify-around">
-          <button autoFocus type="button" className="rounded-lg bg-slate-300 hover:bg-slate-400 transition p-2 cursor-pointer disabled:bg-slate-200 disabled:text-slate-400 disabled:cursor-not-allowed" onClick={onCancel} disabled={disabled}>Cancelar</button>
-          <button type="button" className="rounded-lg bg-blue-500 hover:bg-blue-600 transition p-2 cursor-pointer text-white disabled:bg-slate-200 disabled:text-slate-400 disabled:cursor-not-allowed" onClick={onConfirm} disabled={disabled}>Ok</button>
+          <Button autoFocus type="button" variant="ghost" onClick={onCancel} disabled={disabled}>Cancelar</Button>
+          <Button type="button" variant="default" onClick={onConfirm} disabled={disabled}>Ok</Button>
         </div>
       </div>
     </div>
