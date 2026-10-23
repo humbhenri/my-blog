@@ -4,6 +4,10 @@ import { findAllPublicPostsCached } from "@/lib/post/queries";
 
 export async function PostFeatured() {
   const posts = await findAllPublicPostsCached();
+  if (posts.length === 0) {
+    return null;
+  }
+
   const post = posts[0];
 
   return (
