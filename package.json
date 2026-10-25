@@ -12,6 +12,7 @@
     "db:migrate": "npx drizzle-kit migrate"
   },
   "dependencies": {
+    "@uiw/react-md-editor": "^4.1.4",
     "better-sqlite3": "^13.0.3",
     "drizzle-orm": "^0.45.4",
     "lucide-react": "^1.58.0",
