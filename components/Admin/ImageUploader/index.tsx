@@ -1,16 +1,17 @@
 'use client';
 
+import { uploadImageAction } from '@/actions/upload/upload-image-action';
 import { Button } from '@/components/Button';
+import { MAX_IMG_SIZE } from '@/config/config';
 import { ImageUpIcon } from 'lucide-react';
-import { useRef } from 'react';
+import { useRef, useTransition } from 'react';
 import { toast } from 'react-toastify';
-
-const MAX_IMG_SIZE = 2 * 1024 * 1024;
 
 type ImageUploaderProps = {};
 
 export function ImageUploader({}: ImageUploaderProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isUploading, startTransition] = useTransition();
 
   function handleClick() {
     if (!fileInputRef.current) return;
@@ -31,6 +32,19 @@ export function ImageUploader({}: ImageUploaderProps) {
 
     const formData = new FormData();
     formData.append('file', file);
+
+    startTransition(async () => {
+      const result = await uploadImageAction(formData);
+      if (result.error) {
+        toast.error(result.error);
+        return;
+      }
+      toast.success(result.url);
+    });
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   }
 
   return (

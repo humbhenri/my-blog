@@ -37,6 +37,7 @@
     "drizzle-kit": "^0.31.11",
     "eslint": "^9",
     "eslint-config-next": "16.3.5",
+    "prettier": "^3.9.10",
     "tailwindcss": "^4",
     "ts-jest": "^29.4.12",
     "typescript": "^5"
