@@ -1,10 +1,9 @@
 'use server';
 
-import { drizzleDb } from '@/db';
-import { postsTable } from '@/db/schemas';
 import { makePartialPublicPost, PublicPost } from '@/dtos/PublicPost';
 import { PostCreateSchema } from '@/lib/post/validations';
 import { Post } from '@/models/posts';
+import { postRepository } from '@/repositories/posts';
 import { getZodErrorMessages, slugify } from '@/utils';
 import { updateTag } from 'next/cache';
 import { redirect } from 'next/navigation';
@@ -12,6 +11,7 @@ import { redirect } from 'next/navigation';
 type CreatePostActionState = {
   formState: PublicPost;
   errors: string[];
+  success?: true;
 };
 
 export async function createPostAction(
@@ -38,15 +38,32 @@ export async function createPostAction(
     };
   }
 
+  console.log('formData', JSON.stringify(formDataObj));
+
   const newPost: Post = {
     date: new Date().toISOString(),
-    id: crypto.randomUUID(),
-    slug: slugify(zodParseObj.data.title),
+    id: formData.get('id')?.toString() || crypto.randomUUID(),
+    slug: formData.get('slug')?.toString() || slugify(zodParseObj.data.title),
     ...zodParseObj.data,
   };
 
-  // TODO move to repository
-  await drizzleDb.insert(postsTable).values(newPost);
+  console.log('newPost = ', JSON.stringify(newPost));
+
+  try {
+    await postRepository.create(newPost);
+  } catch (e: unknown) {
+    if (e instanceof Error) {
+      return {
+        formState: newPost,
+        errors: [e.message],
+      };
+    }
+    console.log(e);
+    return {
+      formState: newPost,
+      errors: ['Unknow error'],
+    };
+  }
   updateTag('posts');
   redirect('/admin/post/' + newPost.id);
 }

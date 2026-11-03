@@ -15,7 +15,7 @@ export default async function AdminPostIdPage({ params }: AdminPostIdPageProps) 
   return (
     <div className="flex flex-col gap-5">
       <h1 className="text-xl font-extrabold">Create post</h1>
-      <PostForm post={post} />
+      <PostForm post={post} mode="update" />
     </div>
   );
 }
