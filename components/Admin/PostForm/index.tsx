@@ -10,6 +10,7 @@ import React, { useActionState, useEffect } from 'react';
 import { ImageUploader } from '../ImageUploader';
 import { toast } from 'react-toastify';
 import { updatePostAction } from '@/actions/post/update-post-action';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 type UpdatePostFormProps = {
   post: PublicPost;
@@ -24,6 +25,10 @@ type PostFormProps = UpdatePostFormProps | CreatePostFormProps;
 
 export function PostForm(props: PostFormProps) {
   const { mode } = props;
+  const searchParams = useSearchParams();
+  const created = searchParams.get('created');
+  const router = useRouter();
+
   let post;
   let postAction;
   if (mode === 'update') {
@@ -62,6 +67,17 @@ export function PostForm(props: PostFormProps) {
       toast.success('Post updated!');
     }
   }, [state.success]);
+
+  useEffect(() => {
+    if (created) {
+      toast.dismiss();
+      toast.success('Post created!');
+      // remove created param from url
+      const url = new URL(window.location.href);
+      url.searchParams.delete('created');
+      router.replace(url.toString());
+    }
+  }, [created, router]);
 
   return (
     <form action={action} className="mb-16">

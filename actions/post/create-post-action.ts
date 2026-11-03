@@ -65,5 +65,5 @@ export async function createPostAction(
     };
   }
   updateTag('posts');
-  redirect('/admin/post/' + newPost.id);
+  redirect(`/admin/post/${newPost.id}?created=1`);
 }
