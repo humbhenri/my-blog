@@ -43,3 +43,5 @@ next-env.d.ts
 db.sqlite3
 .direnv
 public/uploads/
+
+!.env.local.example
