@@ -2,7 +2,6 @@
 
 import { uploadImageAction } from '@/actions/upload/upload-image-action';
 import { Button } from '@/components/Button';
-import { MAX_IMG_SIZE } from '@/config/config';
 import { ImageUpIcon } from 'lucide-react';
 import { useRef, useState, useTransition } from 'react';
 import { toast } from 'react-toastify';
@@ -23,7 +22,8 @@ export function ImageUploader({}: ImageUploaderProps) {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    if (file.size > MAX_IMG_SIZE) {
+    const maxImgSize = Number(process.env.NEXT_PUBLIC_MAX_IMG_SIZE);
+    if (file.size > maxImgSize) {
       toast.error('Image size too big! Max size is 2MB.');
       if (fileInputRef.current) {
         fileInputRef.current.value = '';

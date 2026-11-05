@@ -1,6 +1,5 @@
 'use server';
 
-import { IMG_SERVER_URL, IMG_UPLOAD_DIR, MAX_IMG_SIZE } from '@/config/config';
 import { mkdir, writeFile } from 'fs/promises';
 import { extname, resolve } from 'path';
 
@@ -21,7 +20,8 @@ export async function uploadImageAction(formData: FormData): Promise<UploadImage
     return makeResult({ error: 'Dados inválidos' });
   }
 
-  if (file.size > MAX_IMG_SIZE) {
+  const maxImgSize = Number(process.env.NEXT_PUBLIC_MAX_IMG_SIZE);
+  if (file.size > maxImgSize) {
     return makeResult({ error: 'Arquivo muito grande' });
   }
 
@@ -32,7 +32,8 @@ export async function uploadImageAction(formData: FormData): Promise<UploadImage
   const ext = extname(file.name);
   const name = `${Date.now()}${ext}`;
 
-  const path = resolve(process.cwd(), 'public', IMG_UPLOAD_DIR);
+  const imgUploadDir = process.env.IMG_UPLOAD_DIR;
+  const path = resolve(process.cwd(), 'public', imgUploadDir!);
   await mkdir(path, { recursive: true });
 
   const arrayBuffer = await file.arrayBuffer();
@@ -41,5 +42,6 @@ export async function uploadImageAction(formData: FormData): Promise<UploadImage
   const filePath = resolve(path, name);
   await writeFile(filePath, buf);
 
-  return makeResult({ url: `${IMG_SERVER_URL}/${name}` });
+  const imgServerUrl = process.env.IMG_SERVER_URL;
+  return makeResult({ url: `${imgServerUrl}/${name}` });
 }
