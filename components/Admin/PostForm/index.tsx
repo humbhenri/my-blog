@@ -11,6 +11,7 @@ import { ImageUploader } from '../ImageUploader';
 import { toast } from 'react-toastify';
 import { updatePostAction } from '@/actions/post/update-post-action';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Image from 'next/image';
 
 type UpdatePostFormProps = {
   post: PublicPost;
@@ -112,6 +113,9 @@ export function PostForm(props: PostFormProps) {
           defaultValue={formState?.cover}
           disabled={isPending}
         />
+        {formState?.cover && (
+          <img src={formState?.cover} alt="cover image" className="rounded max-w-3xs" />
+        )}
         <InputCheckBox
           type="checkbox"
           name="published"
