@@ -1,22 +1,30 @@
-"use client";
+'use client';
 
-import { HouseIcon, FileTextIcon, MenuIcon, CircleXIcon, PlusIcon } from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { logoutAction } from '@/actions/login/logout-action';
+import { HouseIcon, FileTextIcon, MenuIcon, CircleXIcon, PlusIcon, LogOutIcon } from 'lucide-react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState, useTransition } from 'react';
 const linkClass =
-  "px-4 flex items-center gap-2 bg-slate-900 text-slate-100 hover:bg-slate-800 transition shrink-0 rounded-lg h-10 cursor-pointer";
+  'px-4 flex items-center gap-2 bg-slate-900 text-slate-100 hover:bg-slate-800 transition shrink-0 rounded-lg h-10 cursor-pointer';
 
 export function Menu() {
   const [isOpen, setIsOpen] = useState(false);
   const pathName = usePathname();
+  const [isPending, startTransition] = useTransition();
+
+  const handleLogout = (e: React.MouseEvent) => {
+    e.preventDefault();
+    startTransition(async () => {
+      await logoutAction();
+    });
+  };
 
   useEffect(() => {
     setIsOpen(false);
   }, [pathName]);
 
-  const navClass =
-    `flex flex-col sm:flex-row sm:flex-wrap bg-slate-900 rounded-lg mb-8 ${!isOpen && "h-10 overflow-hidden"} sm:overflow-visible sm:h-auto`;
+  const navClass = `flex flex-col sm:flex-row sm:flex-wrap bg-slate-900 rounded-lg mb-8 ${!isOpen && 'h-10 overflow-hidden'} sm:overflow-visible sm:h-auto`;
   return (
     <nav className={navClass}>
       <button
@@ -24,16 +32,16 @@ export function Menu() {
         className={` ${linkClass} text-blue-200 italic sm:hidden`}
       >
         {!isOpen && (
-            <>
-                <MenuIcon size={16} />
-                Menu
-            </>
+          <>
+            <MenuIcon size={16} />
+            Menu
+          </>
         )}
         {isOpen && (
-            <>
-                <CircleXIcon size={16} />
-                Fechar
-            </>
+          <>
+            <CircleXIcon size={16} />
+            Fechar
+          </>
         )}
       </button>
       <a href="/" target="_blank" className={linkClass}>
@@ -48,6 +56,14 @@ export function Menu() {
         <PlusIcon size={16} />
         Criar post
       </Link>
+      <a href="#" className={linkClass} onClick={handleLogout}>
+        {!isPending && (
+          <>
+            <LogOutIcon size={16} />
+            Logout
+          </>
+        )}
+      </a>
     </nav>
   );
 }
